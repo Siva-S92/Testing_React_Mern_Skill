@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import { productRouter } from './routes/productRouter.js';
+import dbConnection from './lib/dbConnection.js';
 
 //dotenv config
 dotenv.config({
@@ -15,17 +17,18 @@ const PORT = process.env.PORT
 
 
 // middlewares
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({limit:'50mb', extended: true}))
 app.use(cors())
 
 
 //DB Connection
+dbConnection();
 
 
 
 //routes
-// app.use("/api/products", )
+app.use("/api/products", productRouter)
 
 
 
